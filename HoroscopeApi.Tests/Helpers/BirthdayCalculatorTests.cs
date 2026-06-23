@@ -63,4 +63,28 @@ public class BirthdayCalculatorTests
         // Cumple 2024-02-29
         Assert.Equal(28, days);
     }
+
+    [Fact]
+    public void DaysUntilNextBirthday_WhenCrossingYearEnd_ReturnsOne()
+    {
+        var today = new DateOnly(2026, 12, 31);
+        var birthDate = new DateOnly(1990, 1, 1);
+
+        var days = BirthdayCalculator.DaysUntilNextBirthday(birthDate, today);
+
+        // Next birthday rolls over to 2027-01-01
+        Assert.Equal(1, days);
+    }
+
+    [Fact]
+    public void DaysUntilNextBirthday_Feb29_OnAdjustedFeb28InNonLeapYear_ReturnsZero()
+    {
+        var today = new DateOnly(2025, 2, 28); // 2025 is not a leap year
+        var birthDate = new DateOnly(2000, 2, 29);
+
+        var days = BirthdayCalculator.DaysUntilNextBirthday(birthDate, today);
+
+        // The birthday is observed on 2025-02-28, which is today
+        Assert.Equal(0, days);
+    }
 }

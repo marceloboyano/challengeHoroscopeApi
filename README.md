@@ -33,7 +33,7 @@ the external API again.
 - **Query history** persisted in the database.
 - Cross-cutting: global exception handling, consistent response envelope,
   FluentValidation via an action filter, Swagger with JWT support, CORS.
-- **55 unit tests** (xUnit + Moq).
+- **57 unit tests** (xUnit + Moq).
 
 ---
 
@@ -211,7 +211,7 @@ database/           one-command restore script + docs
 dotnet test
 ```
 
-55 tests covering the zodiac/birthday helpers, the auth and horoscope services
+57 tests covering the zodiac/birthday helpers, the auth and horoscope services
 (including the cache-hits-external-API-only-once guarantee), the user service and
 the validators.
 
