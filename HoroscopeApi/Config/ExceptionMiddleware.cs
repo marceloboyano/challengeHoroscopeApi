@@ -16,9 +16,6 @@ public class ExceptionMiddleware
         _env = env;
     }
 
-    /// <summary>
-    /// Intercepta y maneja las excepciones no controladas del pipeline HTTP.
-    /// </summary>
     public async Task InvokeAsync(HttpContext httpContext)
     {
         try
@@ -27,7 +24,7 @@ public class ExceptionMiddleware
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Excepcion no controlada: {Message}", ex.Message);
+            _logger.LogError(ex, "Unhandled exception: {Message}", ex.Message);
             await HandleExceptionAsync(httpContext, ex);
         }
     }

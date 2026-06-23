@@ -8,9 +8,6 @@ namespace HoroscopeApi.Controllers;
 [ApiController]
 public abstract class ApiControllerBase : ControllerBase
 {
-    /// <summary>
-    /// Obtiene el Id del usuario autenticado desde el claim 'sub' del token JWT.
-    /// </summary>
     protected int CurrentUserId
     {
         get
@@ -22,9 +19,6 @@ public abstract class ApiControllerBase : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Convierte un ServiceResult en la respuesta HTTP estandar (ApiResponse).
-    /// </summary>
     protected IActionResult FromResult<T>(ServiceResult<T> result)
     {
         if (result.Success)

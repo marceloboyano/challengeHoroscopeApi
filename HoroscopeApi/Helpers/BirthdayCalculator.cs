@@ -2,11 +2,6 @@ namespace HoroscopeApi.Helpers;
 
 public static class BirthdayCalculator
 {
-    /// <summary>
-    /// Calcula la cantidad de dias que faltan para el proximo cumpleanos.
-    /// Si el cumpleanos es hoy, devuelve 0.
-    /// Maneja el caso 29/02 usando el 28/02 en anios no bisiestos.
-    /// </summary>
     public static int DaysUntilNextBirthday(DateOnly birthDate, DateOnly today)
     {
         DateOnly next = BuildBirthdayForYear(birthDate, today.Year);

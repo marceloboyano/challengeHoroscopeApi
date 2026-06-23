@@ -20,26 +20,26 @@ builder.Services.AddControllers(options =>
     options.Filters.Add<ValidationFilter>();
 });
 
-// Validacion con FluentValidation
+// FluentValidation
 builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-// Base de datos (EF Core - SQL Server)
+// Database (EF Core - SQL Server)
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Repositorios
+// Repositories
 builder.Services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IHoroscopeQueryRepository, HoroscopeQueryRepository>();
 
-// Servicios de negocio
+// Business services
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IHoroscopeService, HoroscopeService>();
 builder.Services.AddScoped<IStatsService, StatsService>();
 
-// Cliente HTTP tipado para la API externa de horoscope (config desde appsettings)
+// Typed HttpClient for the external horoscope API (configured from appsettings)
 builder.Services.Configure<NewAstroSettings>(builder.Configuration.GetSection("NewAstroSettings"));
 var newAstroSettings = builder.Configuration.GetSection("NewAstroSettings").Get<NewAstroSettings>()!;
 
@@ -51,7 +51,7 @@ builder.Services.AddHttpClient<INewAstroClient, NewAstroClient>(client =>
     client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
 });
 
-// Transversales
+// Cross-cutting
 builder.Services.AddMemoryCache();
 
 // JWT
@@ -91,7 +91,7 @@ builder.Services.AddCors(opt =>
         .AllowAnyMethod());
 });
 
-// Swagger con soporte JWT
+// Swagger with JWT support
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {

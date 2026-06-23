@@ -16,10 +16,6 @@ public class HoroscopeController : ApiControllerBase
         _horoscopeService = horoscopeService;
     }
 
-    /// <summary>
-    /// Devuelve el horoscope del dia para el usuario autenticado, su signo
-    /// y los dias que faltan para su proximo cumpleanos.
-    /// </summary>
     [HttpGet("today")]
     [ProducesResponseType(typeof(ApiResponse<HoroscopeResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetToday(CancellationToken cancellationToken)

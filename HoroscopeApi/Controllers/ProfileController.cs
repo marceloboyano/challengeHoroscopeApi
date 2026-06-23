@@ -17,9 +17,6 @@ public class ProfileController : ApiControllerBase
         _userService = userService;
     }
 
-    /// <summary>
-    /// Devuelve los datos del perfil del usuario autenticado.
-    /// </summary>
     [HttpGet]
     [ProducesResponseType(typeof(ApiResponse<ProfileResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Get(CancellationToken cancellationToken)
@@ -28,9 +25,6 @@ public class ProfileController : ApiControllerBase
         return FromResult(result);
     }
 
-    /// <summary>
-    /// Actualiza el perfil del usuario autenticado (no permite cambiar el username).
-    /// </summary>
     [HttpPut]
     [ProducesResponseType(typeof(ApiResponse<ProfileResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Update([FromBody] UpdateProfileRequest request, CancellationToken cancellationToken)

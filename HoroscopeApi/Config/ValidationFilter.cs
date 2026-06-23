@@ -5,10 +5,6 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace HoroscopeApi.Config;
 
-/// <summary>
-/// Filtro que ejecuta automaticamente los validators de FluentValidation
-/// para los argumentos de accion y devuelve un 400 (ApiResponse) si hay errores.
-/// </summary>
 public class ValidationFilter : IAsyncActionFilter
 {
     private readonly IServiceProvider _serviceProvider;

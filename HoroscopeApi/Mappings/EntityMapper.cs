@@ -4,9 +4,6 @@ using HoroscopeApi.Helpers;
 
 namespace HoroscopeApi.Mappings;
 
-/// <summary>
-/// Mapeo manual entre entidades y DTOs (sin dependencias externas).
-/// </summary>
 public static class EntityMapper
 {
     public static ProfileResponse ToProfileResponse(this User user) => new()

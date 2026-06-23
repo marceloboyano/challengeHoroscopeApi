@@ -2,10 +2,6 @@ namespace HoroscopeApi.Helpers;
 
 public static class ZodiacCalculator
 {
-    /// <summary>
-    /// Devuelve el signo zodiacal (en ingles, como espera la API de horoscope)
-    /// a partir de la fecha de nacimiento.
-    /// </summary>
     public static string GetSign(DateOnly birthDate)
     {
         int day = birthDate.Day;
@@ -25,7 +21,7 @@ public static class ZodiacCalculator
             10 => day <= 22 ? "Libra" : "Scorpio",
             11 => day <= 21 ? "Scorpio" : "Sagittarius",
             12 => day <= 21 ? "Sagittarius" : "Capricorn",
-            _ => throw new ArgumentOutOfRangeException(nameof(birthDate), "Mes invalido")
+            _ => throw new ArgumentOutOfRangeException(nameof(birthDate), "Invalid month")
         };
     }
 }

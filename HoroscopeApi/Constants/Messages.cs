@@ -1,10 +1,5 @@
 namespace HoroscopeApi.Constants;
 
-/// <summary>
-/// Application messages, centralized and grouped by domain.
-/// Avoids hardcoded strings scattered across the services and keeps
-/// them consistent (and ready for future localization).
-/// </summary>
 public static class Messages
 {
     public static class Auth

@@ -16,9 +16,6 @@ public class StatsController : ApiControllerBase
         _statsService = statsService;
     }
 
-    /// <summary>
-    /// Devuelve el signo mas buscado de todo el sistema.
-    /// </summary>
     [HttpGet("most-searched")]
     [ProducesResponseType(typeof(ApiResponse<SignStatResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> MostSearched(CancellationToken cancellationToken)
@@ -27,9 +24,6 @@ public class StatsController : ApiControllerBase
         return FromResult(result);
     }
 
-    /// <summary>
-    /// Devuelve el ranking de signos por cantidad de consultas.
-    /// </summary>
     [HttpGet("ranking")]
     [ProducesResponseType(typeof(ApiResponse<IEnumerable<SignStatResponse>>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Ranking(CancellationToken cancellationToken)
@@ -38,9 +32,6 @@ public class StatsController : ApiControllerBase
         return FromResult(result);
     }
 
-    /// <summary>
-    /// Devuelve el historial de consultas del usuario autenticado (paginado).
-    /// </summary>
     [HttpGet("history")]
     [ProducesResponseType(typeof(ApiResponse<PagedResponse<HistoryItemResponse>>), StatusCodes.Status200OK)]
     public async Task<IActionResult> History([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10, CancellationToken cancellationToken = default)
