@@ -3,12 +3,15 @@ using System.Reflection;
 using System.Text;
 using FluentValidation;
 using HoroscopeApi.Config;
+using HoroscopeApi.Config.Json;
 using HoroscopeApi.DataAccess;
+using HoroscopeApi.DTOs.Responses;
 using HoroscopeApi.Repositories;
 using HoroscopeApi.Repositories.Interfaces;
 using HoroscopeApi.Services.Implementations;
 using HoroscopeApi.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -18,6 +21,29 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ValidationFilter>();
+})
+.AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+    options.JsonSerializerOptions.Converters.Add(new NullableDateOnlyJsonConverter());
+});
+
+// Return model-binding/validation errors in the standard ApiResponse shape (instead of the default ProblemDetails)
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.InvalidModelStateResponseFactory = context =>
+    {
+        var message = string.Join(" ", context.ModelState.Values
+            .SelectMany(state => state.Errors)
+            .Select(error => error.ErrorMessage));
+
+        if (string.IsNullOrWhiteSpace(message))
+        {
+            message = "Invalid request.";
+        }
+
+        return new BadRequestObjectResult(new ApiResponse<object>(message, StatusCodes.Status400BadRequest));
+    };
 });
 
 // FluentValidation
