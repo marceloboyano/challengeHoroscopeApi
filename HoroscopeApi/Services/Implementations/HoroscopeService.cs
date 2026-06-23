@@ -29,12 +29,12 @@ public class HoroscopeService : IHoroscopeService
         _cache = cache;
     }
 
-    public async Task<ServiceResult<HoroscopeResponse>> GetTodayAsync(int userId, CancellationToken cancellationToken = default)
+    public async Task<ServiceResult<HoroscopeResponseDto>> GetTodayAsync(int userId, CancellationToken cancellationToken = default)
     {
         var user = await _users.GetByIdAsync(userId, cancellationToken);
         if (user is null)
         {
-            return ServiceResult<HoroscopeResponse>.Fail(Messages.User.NotFound, 404);
+            return ServiceResult<HoroscopeResponseDto>.Fail(Messages.User.NotFound, 404);
         }
 
         var today = DateOnly.FromDateTime(DateTime.Now);
@@ -51,7 +51,7 @@ public class HoroscopeService : IHoroscopeService
             ResultText = horoscopeText
         }, cancellationToken);
 
-        var response = new HoroscopeResponse
+        var response = new HoroscopeResponseDto
         {
             Sign = sign,
             Date = today,
@@ -59,7 +59,7 @@ public class HoroscopeService : IHoroscopeService
             DaysUntilBirthday = daysUntilBirthday
         };
 
-        return ServiceResult<HoroscopeResponse>.Ok(response);
+        return ServiceResult<HoroscopeResponseDto>.Ok(response);
     }
 
     private async Task<string> GetHoroscopeTextAsync(string sign, DateOnly date, CancellationToken cancellationToken)

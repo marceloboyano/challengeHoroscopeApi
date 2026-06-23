@@ -18,7 +18,7 @@ public class HoroscopeController : ApiControllerBase
 
     /// <summary>Returns today's horoscope for the authenticated user, their sign and the days until their next birthday.</summary>
     [HttpGet("today")]
-    [ProducesResponseType(typeof(ApiResponse<HoroscopeResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<HoroscopeResponseDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetToday(CancellationToken cancellationToken)
     {
         var result = await _horoscopeService.GetTodayAsync(CurrentUserId, cancellationToken);

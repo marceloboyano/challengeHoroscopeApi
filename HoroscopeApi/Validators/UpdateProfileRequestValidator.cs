@@ -4,7 +4,7 @@ using HoroscopeApi.DTOs.Requests;
 
 namespace HoroscopeApi.Validators;
 
-public class UpdateProfileRequestValidator : AbstractValidator<UpdateProfileRequest>
+public class UpdateProfileRequestValidator : AbstractValidator<UpdateProfileRequestDto>
 {
     public UpdateProfileRequestValidator()
     {
@@ -34,7 +34,7 @@ public class UpdateProfileRequestValidator : AbstractValidator<UpdateProfileRequ
         });
     }
 
-    private static bool HaveAtLeastOneField(UpdateProfileRequest request)
+    private static bool HaveAtLeastOneField(UpdateProfileRequestDto request)
         => !string.IsNullOrWhiteSpace(request.Email)
            || request.BirthDate.HasValue
            || !string.IsNullOrWhiteSpace(request.Password);

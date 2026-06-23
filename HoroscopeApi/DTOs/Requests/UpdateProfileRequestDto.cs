@@ -1,6 +1,6 @@
 namespace HoroscopeApi.DTOs.Requests;
 
-public class UpdateProfileRequest
+public class UpdateProfileRequestDto
 {
     public string? Email { get; set; }
     public DateOnly? BirthDate { get; set; }

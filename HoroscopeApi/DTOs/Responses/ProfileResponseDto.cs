@@ -1,6 +1,6 @@
 namespace HoroscopeApi.DTOs.Responses;
 
-public class ProfileResponse
+public class ProfileResponseDto
 {
     public string Username { get; set; } = null!;
     public string Email { get; set; } = null!;

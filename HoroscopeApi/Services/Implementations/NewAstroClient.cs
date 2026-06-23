@@ -38,7 +38,7 @@ public class NewAstroClient : INewAstroClient
             response.EnsureSuccessStatusCode();
         }
 
-        var result = await response.Content.ReadFromJsonAsync<NewAstroResponse>(cancellationToken);
+        var result = await response.Content.ReadFromJsonAsync<NewAstroResponseDto>(cancellationToken);
 
         if (result is null || string.IsNullOrWhiteSpace(result.Horoscope))
         {

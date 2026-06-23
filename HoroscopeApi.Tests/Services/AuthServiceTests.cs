@@ -26,7 +26,7 @@ public class AuthServiceTests
 
         var service = new AuthService(users.Object, TokenServiceMock().Object);
 
-        var request = new RegisterRequest { Username = "marcelo", Email = "m@test.com", BirthDate = new DateOnly(1990, 10, 5), Password = "Passw0rd!" };
+        var request = new RegisterRequestDto { Username = "marcelo", Email = "m@test.com", BirthDate = new DateOnly(1990, 10, 5), Password = "Passw0rd!" };
         var result = await service.RegisterAsync(request);
 
         Assert.False(result.Success);
@@ -45,7 +45,7 @@ public class AuthServiceTests
 
         var service = new AuthService(users.Object, TokenServiceMock().Object);
 
-        var request = new RegisterRequest { Username = "nuevo", Email = "nuevo@test.com", BirthDate = new DateOnly(1995, 3, 25), Password = "Passw0rd!" };
+        var request = new RegisterRequestDto { Username = "nuevo", Email = "nuevo@test.com", BirthDate = new DateOnly(1995, 3, 25), Password = "Passw0rd!" };
         var result = await service.RegisterAsync(request);
 
         Assert.True(result.Success);
@@ -71,7 +71,7 @@ public class AuthServiceTests
 
         var service = new AuthService(users.Object, TokenServiceMock().Object);
 
-        var result = await service.LoginAsync(new LoginRequest { Username = "marcelo", Password = "incorrecta" });
+        var result = await service.LoginAsync(new LoginRequestDto { Username = "marcelo", Password = "incorrecta" });
 
         Assert.False(result.Success);
         Assert.Equal(401, result.StatusCode);
@@ -94,7 +94,7 @@ public class AuthServiceTests
 
         var service = new AuthService(users.Object, TokenServiceMock().Object);
 
-        var result = await service.LoginAsync(new LoginRequest { Username = "marcelo", Password = "Passw0rd!" });
+        var result = await service.LoginAsync(new LoginRequestDto { Username = "marcelo", Password = "Passw0rd!" });
 
         Assert.True(result.Success);
         Assert.Equal("fake-jwt-token", result.Data!.Token);
@@ -108,7 +108,7 @@ public class AuthServiceTests
 
         var service = new AuthService(users.Object, TokenServiceMock().Object);
 
-        var result = await service.LoginAsync(new LoginRequest { Username = "noexiste", Password = "x" });
+        var result = await service.LoginAsync(new LoginRequestDto { Username = "noexiste", Password = "x" });
 
         Assert.False(result.Success);
         Assert.Equal(401, result.StatusCode);

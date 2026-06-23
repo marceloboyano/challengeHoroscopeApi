@@ -15,37 +15,37 @@ public class StatsService : IStatsService
         _queries = queries;
     }
 
-    public async Task<ServiceResult<SignStatResponse>> GetMostSearchedSignAsync(CancellationToken cancellationToken = default)
+    public async Task<ServiceResult<SignStatResponseDto>> GetMostSearchedSignAsync(CancellationToken cancellationToken = default)
     {
         var stats = await _queries.GetSignStatsAsync(cancellationToken);
         var top = stats.FirstOrDefault();
 
         if (top.Sign is null)
         {
-            return ServiceResult<SignStatResponse>.Fail(Messages.Stats.NoQueries, 404);
+            return ServiceResult<SignStatResponseDto>.Fail(Messages.Stats.NoQueries, 404);
         }
 
-        return ServiceResult<SignStatResponse>.Ok(new SignStatResponse
+        return ServiceResult<SignStatResponseDto>.Ok(new SignStatResponseDto
         {
             Sign = top.Sign,
             Count = top.Count
         });
     }
 
-    public async Task<ServiceResult<IEnumerable<SignStatResponse>>> GetRankingAsync(CancellationToken cancellationToken = default)
+    public async Task<ServiceResult<IEnumerable<SignStatResponseDto>>> GetRankingAsync(CancellationToken cancellationToken = default)
     {
         var stats = await _queries.GetSignStatsAsync(cancellationToken);
 
-        var ranking = stats.Select(s => new SignStatResponse
+        var ranking = stats.Select(s => new SignStatResponseDto
         {
             Sign = s.Sign,
             Count = s.Count
         });
 
-        return ServiceResult<IEnumerable<SignStatResponse>>.Ok(ranking);
+        return ServiceResult<IEnumerable<SignStatResponseDto>>.Ok(ranking);
     }
 
-    public async Task<ServiceResult<PagedResponse<HistoryItemResponse>>> GetHistoryAsync(int userId, int pageNumber, int pageSize, CancellationToken cancellationToken = default)
+    public async Task<ServiceResult<PagedResponse<HistoryItemResponseDto>>> GetHistoryAsync(int userId, int pageNumber, int pageSize, CancellationToken cancellationToken = default)
     {
         if (pageNumber < 1) pageNumber = 1;
         if (pageSize < 1 || pageSize > 50) pageSize = 10;
@@ -54,8 +54,8 @@ public class StatsService : IStatsService
 
         var mapped = items.Select(q => q.ToHistoryItemResponse());
 
-        var paged = new PagedResponse<HistoryItemResponse>(mapped, totalCount, pageNumber, pageSize);
+        var paged = new PagedResponse<HistoryItemResponseDto>(mapped, totalCount, pageNumber, pageSize);
 
-        return ServiceResult<PagedResponse<HistoryItemResponse>>.Ok(paged);
+        return ServiceResult<PagedResponse<HistoryItemResponseDto>>.Ok(paged);
     }
 }

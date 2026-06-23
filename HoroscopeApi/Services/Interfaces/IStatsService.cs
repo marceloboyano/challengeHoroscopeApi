@@ -4,7 +4,7 @@ namespace HoroscopeApi.Services.Interfaces;
 
 public interface IStatsService
 {
-    Task<ServiceResult<SignStatResponse>> GetMostSearchedSignAsync(CancellationToken cancellationToken = default);
-    Task<ServiceResult<IEnumerable<SignStatResponse>>> GetRankingAsync(CancellationToken cancellationToken = default);
-    Task<ServiceResult<PagedResponse<HistoryItemResponse>>> GetHistoryAsync(int userId, int pageNumber, int pageSize, CancellationToken cancellationToken = default);
+    Task<ServiceResult<SignStatResponseDto>> GetMostSearchedSignAsync(CancellationToken cancellationToken = default);
+    Task<ServiceResult<IEnumerable<SignStatResponseDto>>> GetRankingAsync(CancellationToken cancellationToken = default);
+    Task<ServiceResult<PagedResponse<HistoryItemResponseDto>>> GetHistoryAsync(int userId, int pageNumber, int pageSize, CancellationToken cancellationToken = default);
 }

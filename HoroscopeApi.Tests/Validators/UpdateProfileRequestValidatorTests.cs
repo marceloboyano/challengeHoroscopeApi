@@ -11,7 +11,7 @@ public class UpdateProfileRequestValidatorTests
     [Fact]
     public void WhenAllFieldsEmpty_FailsValidation()
     {
-        var model = new UpdateProfileRequest();
+        var model = new UpdateProfileRequestDto();
 
         var result = _validator.TestValidate(model);
 
@@ -21,7 +21,7 @@ public class UpdateProfileRequestValidatorTests
     [Fact]
     public void WhenOnlyEmailProvided_PassesValidation()
     {
-        var model = new UpdateProfileRequest { Email = "nuevo@test.com" };
+        var model = new UpdateProfileRequestDto { Email = "nuevo@test.com" };
 
         var result = _validator.TestValidate(model);
 
@@ -31,7 +31,7 @@ public class UpdateProfileRequestValidatorTests
     [Fact]
     public void WhenOnlyBirthDateProvided_PassesValidation()
     {
-        var model = new UpdateProfileRequest { BirthDate = new DateOnly(1990, 10, 5) };
+        var model = new UpdateProfileRequestDto { BirthDate = new DateOnly(1990, 10, 5) };
 
         var result = _validator.TestValidate(model);
 
@@ -41,7 +41,7 @@ public class UpdateProfileRequestValidatorTests
     [Fact]
     public void WhenEmailProvidedButInvalid_FailsValidation()
     {
-        var model = new UpdateProfileRequest { Email = "no-es-email" };
+        var model = new UpdateProfileRequestDto { Email = "no-es-email" };
 
         var result = _validator.TestValidate(model);
 

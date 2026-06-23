@@ -4,7 +4,7 @@ using HoroscopeApi.DTOs.Requests;
 
 namespace HoroscopeApi.Validators;
 
-public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
+public class RegisterRequestValidator : AbstractValidator<RegisterRequestDto>
 {
     public RegisterRequestValidator()
     {

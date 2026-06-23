@@ -1,6 +1,6 @@
 namespace HoroscopeApi.DTOs.Responses;
 
-public class HistoryItemResponse
+public class HistoryItemResponseDto
 {
     public string Sign { get; set; } = null!;
     public DateOnly QueryDate { get; set; }

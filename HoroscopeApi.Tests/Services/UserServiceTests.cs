@@ -26,7 +26,7 @@ public class UserServiceTests
         var service = new UserService(users.Object);
 
         // Mismo email que ya tiene y misma fecha => no hay cambios reales
-        var request = new UpdateProfileRequest
+        var request = new UpdateProfileRequestDto
         {
             Email = "marcelo@test.com",
             BirthDate = new DateOnly(1990, 10, 5)
@@ -46,7 +46,7 @@ public class UserServiceTests
 
         var service = new UserService(users.Object);
 
-        var request = new UpdateProfileRequest { BirthDate = new DateOnly(1995, 1, 1) };
+        var request = new UpdateProfileRequestDto { BirthDate = new DateOnly(1995, 1, 1) };
 
         var result = await service.UpdateProfileAsync(1, request);
 
@@ -62,7 +62,7 @@ public class UserServiceTests
 
         var service = new UserService(users.Object);
 
-        var result = await service.UpdateProfileAsync(99, new UpdateProfileRequest { Email = "x@test.com" });
+        var result = await service.UpdateProfileAsync(99, new UpdateProfileRequestDto { Email = "x@test.com" });
 
         Assert.False(result.Success);
         Assert.Equal(404, result.StatusCode);

@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace HoroscopeApi.DTOs.External;
 
-public class NewAstroResponse
+public class NewAstroResponseDto
 {
     [JsonPropertyName("date")]
     public string? Date { get; set; }

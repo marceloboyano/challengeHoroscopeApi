@@ -4,7 +4,7 @@ using HoroscopeApi.DTOs.Requests;
 
 namespace HoroscopeApi.Validators;
 
-public class LoginRequestValidator : AbstractValidator<LoginRequest>
+public class LoginRequestValidator : AbstractValidator<LoginRequestDto>
 {
     public LoginRequestValidator()
     {

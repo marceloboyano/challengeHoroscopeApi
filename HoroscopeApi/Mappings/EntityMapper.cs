@@ -6,7 +6,7 @@ namespace HoroscopeApi.Mappings;
 
 public static class EntityMapper
 {
-    public static ProfileResponse ToProfileResponse(this User user) => new()
+    public static ProfileResponseDto ToProfileResponse(this User user) => new()
     {
         Username = user.Username,
         Email = user.Email,
@@ -14,7 +14,7 @@ public static class EntityMapper
         Sign = ZodiacCalculator.GetSign(user.BirthDate)
     };
 
-    public static HistoryItemResponse ToHistoryItemResponse(this HoroscopeQuery query) => new()
+    public static HistoryItemResponseDto ToHistoryItemResponse(this HoroscopeQuery query) => new()
     {
         Sign = query.Sign,
         QueryDate = query.QueryDate,

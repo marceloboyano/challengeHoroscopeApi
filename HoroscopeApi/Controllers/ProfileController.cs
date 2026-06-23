@@ -19,7 +19,7 @@ public class ProfileController : ApiControllerBase
 
     /// <summary>Returns the authenticated user's profile.</summary>
     [HttpGet]
-    [ProducesResponseType(typeof(ApiResponse<ProfileResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<ProfileResponseDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Get(CancellationToken cancellationToken)
     {
         var result = await _userService.GetProfileAsync(CurrentUserId, cancellationToken);
@@ -28,8 +28,8 @@ public class ProfileController : ApiControllerBase
 
     /// <summary>Updates the authenticated user's profile (username cannot be changed).</summary>
     [HttpPut]
-    [ProducesResponseType(typeof(ApiResponse<ProfileResponse>), StatusCodes.Status200OK)]
-    public async Task<IActionResult> Update([FromBody] UpdateProfileRequest request, CancellationToken cancellationToken)
+    [ProducesResponseType(typeof(ApiResponse<ProfileResponseDto>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Update([FromBody] UpdateProfileRequestDto request, CancellationToken cancellationToken)
     {
         var result = await _userService.UpdateProfileAsync(CurrentUserId, request, cancellationToken);
         return FromResult(result);

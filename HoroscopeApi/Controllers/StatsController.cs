@@ -18,7 +18,7 @@ public class StatsController : ApiControllerBase
 
     /// <summary>Returns the most searched sign across the whole system.</summary>
     [HttpGet("most-searched")]
-    [ProducesResponseType(typeof(ApiResponse<SignStatResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<SignStatResponseDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> MostSearched(CancellationToken cancellationToken)
     {
         var result = await _statsService.GetMostSearchedSignAsync(cancellationToken);
@@ -27,7 +27,7 @@ public class StatsController : ApiControllerBase
 
     /// <summary>Returns the sign ranking by number of queries.</summary>
     [HttpGet("ranking")]
-    [ProducesResponseType(typeof(ApiResponse<IEnumerable<SignStatResponse>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<IEnumerable<SignStatResponseDto>>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Ranking(CancellationToken cancellationToken)
     {
         var result = await _statsService.GetRankingAsync(cancellationToken);
@@ -36,7 +36,7 @@ public class StatsController : ApiControllerBase
 
     /// <summary>Returns the authenticated user's query history (paginated).</summary>
     [HttpGet("history")]
-    [ProducesResponseType(typeof(ApiResponse<PagedResponse<HistoryItemResponse>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<PagedResponse<HistoryItemResponseDto>>), StatusCodes.Status200OK)]
     public async Task<IActionResult> History([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10, CancellationToken cancellationToken = default)
     {
         var result = await _statsService.GetHistoryAsync(CurrentUserId, pageNumber, pageSize, cancellationToken);

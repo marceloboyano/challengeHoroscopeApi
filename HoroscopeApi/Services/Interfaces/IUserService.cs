@@ -5,6 +5,6 @@ namespace HoroscopeApi.Services.Interfaces;
 
 public interface IUserService
 {
-    Task<ServiceResult<ProfileResponse>> GetProfileAsync(int userId, CancellationToken cancellationToken = default);
-    Task<ServiceResult<ProfileResponse>> UpdateProfileAsync(int userId, UpdateProfileRequest request, CancellationToken cancellationToken = default);
+    Task<ServiceResult<ProfileResponseDto>> GetProfileAsync(int userId, CancellationToken cancellationToken = default);
+    Task<ServiceResult<ProfileResponseDto>> UpdateProfileAsync(int userId, UpdateProfileRequestDto request, CancellationToken cancellationToken = default);
 }

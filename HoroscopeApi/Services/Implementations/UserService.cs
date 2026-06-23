@@ -16,23 +16,23 @@ public class UserService : IUserService
         _users = users;
     }
 
-    public async Task<ServiceResult<ProfileResponse>> GetProfileAsync(int userId, CancellationToken cancellationToken = default)
+    public async Task<ServiceResult<ProfileResponseDto>> GetProfileAsync(int userId, CancellationToken cancellationToken = default)
     {
         var user = await _users.GetByIdAsync(userId, cancellationToken);
         if (user is null)
         {
-            return ServiceResult<ProfileResponse>.Fail(Messages.User.NotFound, 404);
+            return ServiceResult<ProfileResponseDto>.Fail(Messages.User.NotFound, 404);
         }
 
-        return ServiceResult<ProfileResponse>.Ok(user.ToProfileResponse());
+        return ServiceResult<ProfileResponseDto>.Ok(user.ToProfileResponse());
     }
 
-    public async Task<ServiceResult<ProfileResponse>> UpdateProfileAsync(int userId, UpdateProfileRequest request, CancellationToken cancellationToken = default)
+    public async Task<ServiceResult<ProfileResponseDto>> UpdateProfileAsync(int userId, UpdateProfileRequestDto request, CancellationToken cancellationToken = default)
     {
         var user = await _users.GetByIdAsync(userId, cancellationToken);
         if (user is null)
         {
-            return ServiceResult<ProfileResponse>.Fail(Messages.User.NotFound, 404);
+            return ServiceResult<ProfileResponseDto>.Fail(Messages.User.NotFound, 404);
         }
       
         var hasChanges = false;
@@ -42,7 +42,7 @@ public class UserService : IUserService
         {
             if (await _users.ExistsByEmailAsync(request.Email, cancellationToken))
             {
-                return ServiceResult<ProfileResponse>.Fail(Messages.User.EmailTaken, 409);
+                return ServiceResult<ProfileResponseDto>.Fail(Messages.User.EmailTaken, 409);
             }
             user.Email = request.Email.Trim();
             hasChanges = true;
@@ -65,6 +65,6 @@ public class UserService : IUserService
             await _users.UpdateAsync(user, cancellationToken);
         }
 
-        return ServiceResult<ProfileResponse>.Ok(user.ToProfileResponse(), Messages.User.ProfileUpdated);
+        return ServiceResult<ProfileResponseDto>.Ok(user.ToProfileResponse(), Messages.User.ProfileUpdated);
     }
 }

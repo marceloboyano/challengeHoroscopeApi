@@ -18,16 +18,16 @@ public class AuthService : IAuthService
         _tokenService = tokenService;
     }
 
-    public async Task<ServiceResult<AuthResponse>> RegisterAsync(RegisterRequest request, CancellationToken cancellationToken = default)
+    public async Task<ServiceResult<AuthResponseDto>> RegisterAsync(RegisterRequestDto request, CancellationToken cancellationToken = default)
     {
         if (await _users.ExistsByUsernameAsync(request.Username, cancellationToken))
         {
-            return ServiceResult<AuthResponse>.Fail(Messages.Auth.UsernameTaken, 409);
+            return ServiceResult<AuthResponseDto>.Fail(Messages.Auth.UsernameTaken, 409);
         }
 
         if (await _users.ExistsByEmailAsync(request.Email, cancellationToken))
         {
-            return ServiceResult<AuthResponse>.Fail(Messages.User.EmailTaken, 409);
+            return ServiceResult<AuthResponseDto>.Fail(Messages.User.EmailTaken, 409);
         }
 
         var user = new User
@@ -41,26 +41,26 @@ public class AuthService : IAuthService
         await _users.AddAsync(user, cancellationToken);
 
         var auth = BuildAuthResponse(user);
-        return ServiceResult<AuthResponse>.Ok(auth, Messages.Auth.Registered, 201);
+        return ServiceResult<AuthResponseDto>.Ok(auth, Messages.Auth.Registered, 201);
     }
 
-    public async Task<ServiceResult<AuthResponse>> LoginAsync(LoginRequest request, CancellationToken cancellationToken = default)
+    public async Task<ServiceResult<AuthResponseDto>> LoginAsync(LoginRequestDto request, CancellationToken cancellationToken = default)
     {
         var user = await _users.GetByUsernameAsync(request.Username, cancellationToken);
 
         if (user is null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
         {
-            return ServiceResult<AuthResponse>.Fail(Messages.Auth.InvalidCredentials, 401);
+            return ServiceResult<AuthResponseDto>.Fail(Messages.Auth.InvalidCredentials, 401);
         }
 
         var auth = BuildAuthResponse(user);
-        return ServiceResult<AuthResponse>.Ok(auth, Messages.Auth.LoginSuccess);
+        return ServiceResult<AuthResponseDto>.Ok(auth, Messages.Auth.LoginSuccess);
     }
 
-    private AuthResponse BuildAuthResponse(User user)
+    private AuthResponseDto BuildAuthResponse(User user)
     {
         var (token, expiresAt) = _tokenService.GenerateToken(user);
-        return new AuthResponse
+        return new AuthResponseDto
         {
             Token = token,
             Username = user.Username,

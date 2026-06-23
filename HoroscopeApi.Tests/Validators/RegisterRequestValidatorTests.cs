@@ -8,7 +8,7 @@ public class RegisterRequestValidatorTests
 {
     private readonly RegisterRequestValidator _validator = new();
 
-    private static RegisterRequest ValidModel() => new()
+    private static RegisterRequestDto ValidModel() => new()
     {
         Username = "marcelo",
         Email = "marcelo@test.com",

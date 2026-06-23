@@ -4,5 +4,5 @@ namespace HoroscopeApi.Services.Interfaces;
 
 public interface IHoroscopeService
 {
-    Task<ServiceResult<HoroscopeResponse>> GetTodayAsync(int userId, CancellationToken cancellationToken = default);
+    Task<ServiceResult<HoroscopeResponseDto>> GetTodayAsync(int userId, CancellationToken cancellationToken = default);
 }
