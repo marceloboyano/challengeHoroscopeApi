@@ -16,6 +16,7 @@ public class StatsController : ApiControllerBase
         _statsService = statsService;
     }
 
+    /// <summary>Returns the most searched sign across the whole system.</summary>
     [HttpGet("most-searched")]
     [ProducesResponseType(typeof(ApiResponse<SignStatResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> MostSearched(CancellationToken cancellationToken)
@@ -24,6 +25,7 @@ public class StatsController : ApiControllerBase
         return FromResult(result);
     }
 
+    /// <summary>Returns the sign ranking by number of queries.</summary>
     [HttpGet("ranking")]
     [ProducesResponseType(typeof(ApiResponse<IEnumerable<SignStatResponse>>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Ranking(CancellationToken cancellationToken)
@@ -32,6 +34,7 @@ public class StatsController : ApiControllerBase
         return FromResult(result);
     }
 
+    /// <summary>Returns the authenticated user's query history (paginated).</summary>
     [HttpGet("history")]
     [ProducesResponseType(typeof(ApiResponse<PagedResponse<HistoryItemResponse>>), StatusCodes.Status200OK)]
     public async Task<IActionResult> History([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10, CancellationToken cancellationToken = default)

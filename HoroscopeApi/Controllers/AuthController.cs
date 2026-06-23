@@ -15,6 +15,7 @@ public class AuthController : ApiControllerBase
         _authService = authService;
     }
 
+    /// <summary>Registers a new user and returns a JWT token.</summary>
     [HttpPost("register")]
     [ProducesResponseType(typeof(ApiResponse<AuthResponse>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status409Conflict)]
@@ -24,6 +25,7 @@ public class AuthController : ApiControllerBase
         return FromResult(result);
     }
 
+    /// <summary>Authenticates a user and returns a JWT token.</summary>
     [HttpPost("login")]
     [ProducesResponseType(typeof(ApiResponse<AuthResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
