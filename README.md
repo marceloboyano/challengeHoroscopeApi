@@ -147,7 +147,7 @@ Content-Type: application/json
 ## Architecture
 
 Classic layered design: **Controller → Service → Repository → DbContext**, with
-each layer depending on interfaces (testable, decoupled). Full class-by-class
+each layer depending on interfaces (testable, decoupled).
 
 ```
 HoroscopeApi/

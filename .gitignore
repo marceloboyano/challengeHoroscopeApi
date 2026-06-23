@@ -37,6 +37,7 @@ coverage*.info
 *.log
 *.http
 
+
 # OS files
 .DS_Store
 Thumbs.db
