@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="HoroscopeApi/HoroscopeApi.csproj" />
+  <Project Path="HoroscopeApi.Tests/HoroscopeApi.Tests.csproj" />
+</Solution>
