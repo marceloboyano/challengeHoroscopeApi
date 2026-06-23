@@ -1,0 +1,301 @@
+{
+  "info": {
+    "_postman_id": "f1a2b3c4-1111-4a00-9b00-horoscope0001",
+    "name": "Horoscope API",
+    "description": "Collection for the Horoscope API challenge.\n\nFlow:\n1. Select the environment \"Horoscope API - Local\".\n2. Run **Auth > Register** (or **Auth > Login**). The test script stores the returned JWT in the `token` variable automatically.\n3. All protected requests inherit `Authorization: Bearer {{token}}` from the collection, so they just work.\n\nResponses use the standard envelope: `{ success, message, data, statusCode }`.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5237",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "pm.test('Has standard envelope', () => pm.expect(json).to.have.property('success'));",
+                  "if (json && json.data && json.data.token) {",
+                  "    pm.environment.set('token', json.data.token);",
+                  "    pm.collectionVariables.set('token', json.data.token);",
+                  "    pm.test('Returns a JWT token', () => pm.expect(json.data.token).to.be.a('string'));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"postman_user\",\n  \"email\": \"postman.user@example.com\",\n  \"birthDate\": \"1990-05-20\",\n  \"password\": \"Passw0rd!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Auth", "register"]
+            },
+            "description": "Registers a new user and returns a JWT token (201). Returns 409 if the username or email is already taken."
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Returns a JWT token', () => pm.expect(json.data && json.data.token).to.be.a('string'));",
+                  "if (json && json.data && json.data.token) {",
+                  "    pm.environment.set('token', json.data.token);",
+                  "    pm.collectionVariables.set('token', json.data.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"postman_user\",\n  \"password\": \"Passw0rd!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Auth", "login"]
+            },
+            "description": "Authenticates a user and returns a JWT token (200). Returns 401 on invalid credentials."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Profile",
+      "item": [
+        {
+          "name": "Get profile",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Profile"]
+            },
+            "description": "Returns the authenticated user's profile (username, email, birth date and zodiac sign)."
+          }
+        },
+        {
+          "name": "Update profile",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"postman.updated@example.com\",\n  \"birthDate\": \"1992-01-15\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Profile"]
+            },
+            "description": "Updates the authenticated user's profile. All fields are optional, but at least one must be provided. Username cannot be changed. Send an empty `birthDate` (\"\") to leave it unchanged."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Horoscope",
+      "item": [
+        {
+          "name": "Today",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "pm.test('Has horoscope text', () => pm.expect(json.data && json.data.horoscope).to.be.a('string'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Horoscope/today",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Horoscope", "today"]
+            },
+            "description": "Returns today's horoscope for the authenticated user, their zodiac sign and the days until their next birthday."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Stats",
+      "item": [
+        {
+          "name": "Most searched sign",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Stats/most-searched",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Stats", "most-searched"]
+            },
+            "description": "Returns the most searched sign across the whole system."
+          }
+        },
+        {
+          "name": "Ranking",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Stats/ranking",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Stats", "ranking"]
+            },
+            "description": "Returns the sign ranking by number of queries."
+          }
+        },
+        {
+          "name": "History",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Stats/history?pageNumber=1&pageSize=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "Stats", "history"],
+              "query": [
+                {
+                  "key": "pageNumber",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Returns the authenticated user's query history (paginated)."
+          }
+        }
+      ]
+    }
+  ]
+}

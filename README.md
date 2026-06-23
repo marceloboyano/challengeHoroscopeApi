@@ -144,6 +144,42 @@ Content-Type: application/json
 
 ---
 
+## Postman
+
+Ready-to-use collections live in [`postman/`](postman/):
+
+| File | What it is |
+| --- | --- |
+| `HoroscopeApi.postman_collection.json` | The API: Auth, Profile, Horoscope, Stats |
+| `HoroscopeApi.postman_environment.json` | Environment with `baseUrl` and `token` |
+| `NewAstro.postman_collection.json` | The external provider (reference / debugging) |
+
+Usage:
+
+1. **Import** the two collections + the environment into Postman.
+2. Select the **Horoscope API - Local** environment.
+3. Run **Auth → Register** (or **Login**): the JWT is captured automatically (test
+   script) and reused by every protected request via collection-level Bearer auth
+   — no manual copy/paste.
+
+Notes:
+
+- Default `baseUrl` is `http://localhost:5237` (HTTP profile); switch it to
+  `https://localhost:7194` in the environment if you run the HTTPS profile.
+- The collection registers an independent sample user, so it won't clash with the
+  seeded data:
+
+  | Username | Password |
+  | --- | --- |
+  | `postman_user` | `Passw0rd!` |
+
+- `NewAstro` calls `POST /` with `{ "date": "...", "lang": "es", "sign": "Taurus" }`
+  and documents the chunked-encoding quirk handled in `NewAstroClient`.
+
+See [`postman/README.md`](postman/README.md) for more.
+
+---
+
 ## Architecture
 
 Classic layered design: **Controller → Service → Repository → DbContext**, with

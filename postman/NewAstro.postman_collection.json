@@ -1,0 +1,52 @@
+{
+  "info": {
+    "_postman_id": "f1a2b3c4-3333-4a00-9b00-newastro00001",
+    "name": "NewAstro (External Horoscope API)",
+    "description": "The external horoscope provider consumed by the Horoscope API (`NewAstroSettings:BaseUrl`).\n\nIt exposes a single `POST /` endpoint that takes `{ date, lang, sign }` and returns the horoscope text for that sign.\n\nNote: the API rejects requests sent with `Transfer-Encoding: chunked`. Postman sends a `Content-Length` header by default, so it works out of the box. In our `NewAstroClient` we serialize the body manually with `StringContent` for the same reason.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "newAstroBaseUrl",
+      "value": "https://newastro.vercel.app",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Get horoscope",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+              "const json = pm.response.json();",
+              "pm.test('Returns horoscope text', () => pm.expect(json.horoscope).to.be.a('string'));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"date\": \"2026-06-23\",\n  \"lang\": \"es\",\n  \"sign\": \"Taurus\"\n}"
+        },
+        "url": {
+          "raw": "{{newAstroBaseUrl}}/",
+          "host": ["{{newAstroBaseUrl}}"],
+          "path": [""]
+        },
+        "description": "Returns the horoscope for the given sign/date/lang.\n\n- `date`: `yyyy-MM-dd`\n- `lang`: language code (the API uses `es`)\n- `sign`: English capitalized sign name (e.g. `Aries`, `Taurus`, `Gemini`, ... `Pisces`)."
+      }
+    }
+  ]
+}
